@@ -13,6 +13,7 @@ export const signup = async (req, res) => { //signup
         return user.save() // Enregistrement de l'utilisateur dans la BDD
             .then(() => res.status(201).json({ message: 'Utilisateur enregistré' }))
     } catch (error) {
+        console.error(error)
         res.status(500).json({ error })
     }
 }
@@ -31,11 +32,12 @@ export const login = async (req, res) => { //login
             userId: user._id,
             token: jwt.sign(
                 { userId: user._id },
-                'MON_SUPER_TOKEN_SECRET',
+                process.env.JWT_SECRET,
                 { expiresIn: '24h' }
             )
         })
     } catch (error) {
+        console.error(error)
         res.status(500).json({ error })
     }
 }

@@ -18,8 +18,7 @@ app.use(cors())
 app.use(express.json()) //Récupérer les requêtes en Json
 app.use('/api/auth', authRoutes)
 app.use('/api/sauces', saucesRoutes)
-// app.use('/images', express.static(path.join(__dirname, '/images')));
-app.use(express.static('images'))
+app.use('/images', express.static('images')) //Définir le fichier dans lequels les images sont
 
 main()
 async function main() {
