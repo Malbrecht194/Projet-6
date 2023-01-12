@@ -2,7 +2,10 @@ import { User } from "../model/user.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-export const signup = async (req, res) => { //signup
+/**
+ * Ajout d'un utilisateur
+ */
+export async function signup (req, res) { //signup
     try {
         const hash = await bcrypt.hash(req.body.password, 10) // Hachage du password des utilisateurs avant l'enregistrement dans la BDD 
 
@@ -18,7 +21,10 @@ export const signup = async (req, res) => { //signup
     }
 }
 
-export const login = async (req, res) => { //login
+/**
+ * Connexion d'un utilisateur
+ */
+export async function login (req, res) { //login
     try {
         const user = await User.findOne({ email: req.body.email })
         if (!user) {

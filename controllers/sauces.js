@@ -1,6 +1,9 @@
 import { Sauce } from "../model/sauce.js"
 
-export const addSauce = async (req, res) => { //Ajout d'une sauce   
+/**
+ * Ajouter une sauce 
+ */
+export async function addSauce (req, res) {
     try {
     const sauceItem = JSON.parse(req.body.sauce)
     delete req.body._id
@@ -24,7 +27,10 @@ export const addSauce = async (req, res) => { //Ajout d'une sauce
     }
 }
 
-export const getSauces = async (req, res) =>{ // On récupère les sauces depuis la BDD
+/**
+ * Réccupérer toute les sauces
+ */
+export async function getSauces (req, res) {
     try { 
         const sauces = await Sauce.find()
         res.status(200).json(
@@ -38,7 +44,10 @@ export const getSauces = async (req, res) =>{ // On récupère les sauces depuis
     }
 }
 
-export async function getOneSauce (req, res){
+/**
+ * Récupérer une seule sauce
+ */
+export async function getOneSauce (req, res) {
     try{
         const sauce = await Sauce.findOne({
             _id: req.params.id
@@ -47,6 +56,30 @@ export async function getOneSauce (req, res){
     } catch(error){
         console.error(error)
         res.status(404).json({error}) 
+    }
+}
+
+/**
+ * Modifier une sauce
+ */
+export async function modifySauce (req, res){
+    try{
+
+    }catch(error){
+        console.error(error)
+        res.status(400).json({error})
+    }
+}
+
+/**
+ * Supprimer une sauce
+ */
+export async function deleteSauce (req, res){
+    try{
+
+    }catch(error){
+        console.error(error)
+        res.status(400).json({error})
     }
 }
 
