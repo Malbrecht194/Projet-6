@@ -1,7 +1,6 @@
 import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import path from 'path'
 import authRoutes from './routes/auth.js'
 import saucesRoutes from './routes/sauces.js'
 import dotenv from 'dotenv'

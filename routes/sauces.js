@@ -9,7 +9,7 @@ router.get('/', auth, getSauces)
 router.get ('/:id', auth, getOneSauce)
 router.post ('/:id/like', auth, likeSauce)
 router.post('/', auth, multer, addSauce)
-router.post('/:id', auth, multer, modifySauce)
+router.put('/:id', auth, multer, modifySauce)
 router.delete('/:id', auth, deleteSauce)
 
 export default router

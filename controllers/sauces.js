@@ -29,7 +29,7 @@ export async function addSauce(req, res) {
 }
 
 /**
- * Réccupérer toute les sauces
+ * Récupérer toute les sauces
  */
 export async function getSauces(req, res) {
     try {
@@ -65,13 +65,31 @@ export async function getOneSauce(req, res) {
  */
 export async function modifySauce(req, res) {
     try {
-        const sauce = await Sauce.findOne({
+        const sauce = await Sauce.findOne({ // appel de la sauce 
             _id: req.params.id
         })
+        if (sauce.userID !== req.auth.userId) { // vérif du user
+            return res.status(401).json({ message: 'Non autorisé' })
+        }
+
+        const sauceObject = req.file ? { // vérif si oui ou non y'a un fichier
+            ...JSON.parse(req.body.sauce),
+            imageName: req.file.filename
+        } : { ...req.body };
+
+        delete sauceObject._userId //Mesure de sécurité
+
+        await Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id }) //update des informartions
+        if (req.file) {
+            fs.unlinkSync(`images/${sauce.imageName}`)
+        }
+        res.status(200).json({ message: 'Sauce modifié' })
+    
     } catch (error) {
         console.error(error)
         res.status(400).json({ error })
     }
+
 }
 
 /**
@@ -134,7 +152,6 @@ function normalizer(req, sauce) {
         usersDisliked: sauce.usersDisliked,
         likes: sauce.usersLiked.length,
         dislikes: sauce.usersDisliked.length,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${sauce.imageName
-            }` //--- IMPORTANT ---//
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${sauce.imageName}` //--- IMPORTANT ---//
     }
 }
