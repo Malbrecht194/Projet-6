@@ -139,7 +139,7 @@ export async function likeSauce(req, res) {
     }
 }
 
-function normalizer(req, sauce) {
+function normalizer(req, sauce) { // Permet de rendre les données propres
     return {
         _id: sauce._id,
         userId: sauce.userID,
