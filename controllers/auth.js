@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 /**
  * Ajout d'un utilisateur
  */
-export async function signup (req, res) { //signup
+export async function signup(req, res) { //signup
     try {
         const hash = await bcrypt.hash(req.body.password, 10) // Hachage du password des utilisateurs avant l'enregistrement dans la BDD 
 
@@ -13,8 +13,10 @@ export async function signup (req, res) { //signup
             email: req.body.email,
             password: hash
         })
-        return user.save() // Enregistrement de l'utilisateur dans la BDD
-            .then(() => res.status(201).json({ message: 'Utilisateur enregistré' }))
+        
+        await user.save() // Enregistrement de l'utilisateur dans la BDD
+        return res.status(201).json({ message: 'Utilisateur enregistré' })
+
     } catch (error) {
         console.error(error)
         res.status(500).json({ error })
@@ -24,7 +26,7 @@ export async function signup (req, res) { //signup
 /**
  * Connexion d'un utilisateur
  */
-export async function login (req, res) { //login
+export async function login(req, res) { //login
     try {
         const user = await User.findOne({ email: req.body.email })
         if (!user) {
